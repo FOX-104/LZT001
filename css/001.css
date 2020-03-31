@@ -1,0 +1,61 @@
+
+			
+			body{
+				height: 100%;
+				width: 100%;
+				margin: 0px;
+				padding: 0px;
+				/* background-color: #000000; */
+			}
+			
+			
+			#id001{
+				position: static;
+				/* float: right; */
+				margin: 100px;
+				/* margin-right: 100px; */
+				padding-right: 100px;
+				height: 700px;
+				width:%70;
+				
+				background: #000000;
+			}
+			#asd{
+				background-color: #E84118;
+			}
+			
+			#id002{
+				position:fixed;
+				top: auto;
+				left: auto;
+				right: 10px;
+				bottom: 50px;
+				
+				border: none;
+				width: 50px;
+				height: 50px;
+				border-radius: 50px;
+				
+				overflow: hidden;
+				/* 隐藏超出范围的子元素 */
+				
+				background-color: #e84118;
+				transition: width 0.5s;
+				-moz-transition: width 0.5s; /* Firefox 4 */ 
+				-webkit-transition: width 0.5s; /* Safari和Chrome */ 
+				-o-transition: width 0.5s; /* Opera */
+			}
+			#id002:hover
+			{
+			width: 185px;
+			}
+			.button01{
+				position:relative;
+				border: 0;
+				float: left;
+				margin-top: 5px;
+				margin-left: 5px;
+				width: 40px;
+				height: 40px;
+				border-radius: 40px;
+			} 

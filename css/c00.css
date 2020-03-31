@@ -1,0 +1,65 @@
+body{
+	height: 100%;
+	width: 100%;
+	background-image: url(../img/bj.jpg);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	padding-top: 15%;
+	padding-right: 5%;
+	text-align: right;
+	
+}
+
+
+#div01{
+	width:23%;
+	/* --------------------------------------------- */
+	height: auto;
+	margin:auto 10% auto auto;
+	text-align: center;
+	background: rgba(0,0,0,0.5);
+	padding: 20px 50px;
+	
+}
+#div01 h1{
+	color: rgba(255,255,255,0.8);
+}
+/* 设置#login-box.form.item的属性 */
+#div01 .class011{
+	margin-top: 15px;
+}
+/* 设置#login-box.form.item下的input属性 */
+#div01 .class011 input{
+	width: 180px;
+	font-size: 15px;
+	border: none;
+	border-bottom:2px solid rgba(255,255,255,0.6);
+	padding:5px 12px;
+	background: rgba(255,255,255,0);
+	color: rgba(255,255,255,0.9);
+}
+/* 设置button按钮属性 */
+#button00{
+	margin-top: 15px;
+	width: 180px;
+	height: 30px;
+	font-size: 20px;
+	font-weight: 700;
+	color: #FFFFFF;
+	background-image: linear-gradient(to right,#ff0004 0%,#1100ff 100%);
+	border: 0;
+	border-radius: 15px;
+	
+}
+#lll{
+	margin-top: 15px;
+	width: 180px;
+	height: 30px;
+	font-size: 20px;
+	font-weight: 700;
+	color: #FFFFFF;
+	background-image: linear-gradient(to right,#ff0004 0%,#1100ff 100%);
+	border: 0;
+	border-radius: 15px;
+}
