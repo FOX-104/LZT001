@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>订单详情</title>
+		<meta charset="UTF-8">
+
+		<link rel="stylesheet" type="text/css" href="../css/sta360.css" />
+		<link rel="stylesheet" type="text/css" href="../css/worder.css" />
+		<script src="../jsdm/vu.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="vmvm">
+			<div class="first">
+				<input type="text" placeholder="提交订单时间" v-model="提交订单时间" /> <br /> 
+				<input type="text" placeholder="付款成功时间" v-model="付款成功时间" /> <br /> 
+				<input type="text" placeholder="商品出库时间" v-model="商品出库时间" /> <br /> 
+				<input type="text" placeholder="等待收货时间" v-model="等待收货时间" /> <br /> 
+				<input type="text" placeholder="订单完成时间" v-model="订单完成时间" /> <br />
+				
+				<input type="text" placeholder="进度" v-model="jindu" />
+
+				<input type="radio" value="绿色" v-model="订单状态颜色">红色
+				<input type="radio" value="红色" v-model="订单状态颜色">绿色
+用户名：
+				<input type="text" v-model="zhanghao" placeholder="账户名" /><br /> 订单号
+				<input type="text" v-model="dingdanhao" placeholder="订单号" /><br /> 姓名：
+				<input type="text" v-model="xingming" placeholder="姓名" /><br /> 电话
+				<input type="text" v-model.number="dianhua" id="xm" placeholder="电话" /><br /> 地址
+				<input type="text" v-model="dizhi" id="xm" placeholder="地址" style="width: 400px;" /><br /> 快递：
+				<input type="text" v-model="kdgs" id="xm" placeholder="快递" /><br /> 运单号：
+				<input type="text" v-model="kddh" id="xm" placeholder="单号" /><br />
+				<textarea v-model="wuliuxinxi" rows="15" cols="100" placeholder="add multiple lines">{{wuliuxinxi}}</textarea>
+
+			</div>
+
+			<div class="main" id="appp">
+				<!---==============================================================================-->
+				<div class="process wb-flow">
+					<ul>
+						<!---==============================================================================-->
+						<li class="wb-flow-item">
+							<div class="wb-flow-first">
+								<span v-if="jindu>0"><img src="../icon/ale/tu/1.png"/></span>
+								<span v-else><img src="../icon/ale/fa/1-g.png"/></span>
+							</div>
+							<span v-if="dingdantubiao>0"><p class="mtb10 text-blue">1.提交订单</p></span>
+							<span v-else><p class="mtb10">1.提交订单</p></span>
+							<span v-show="dingdantubiao>0"><p class="processlip">{{提交订单时间}}</p></span>
+						</li>
+						<!---==============================================================================-->
+						<li v-if="jindu>1" class="wb-flow-item  highlight ">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/tu/2.png" />
+							</div>
+							<p class="mtb10 text-blue">2.付款成功</p>
+							<p class="processlip">{{付款成功时间}}</p>
+						</li>
+
+						<li v-else class="wb-flow-item">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/fa/2-g.png" />
+							</div>
+							<p class="mtb10">2.付款成功</p>
+						</li>
+						<!---==============================================================================-->
+						<li v-if="jindu>2" class="wb-flow-item  highlight">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/tu/3.png" />
+							</div>
+							<p class="mtb10  text-blue ">3.商品出库</p>
+							<p class="processlip">{{商品出库时间}}</p>
+						</li>
+						<li v-else class="wb-flow-item">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/fa/3-g.png" />
+							</div>
+							<p class="mtb10">3.商品出库</p>
+						</li>
+						<!---==============================================================================-->
+						<li v-if="jindu>3" class="wb-flow-item">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/tu/4.png" />
+							</div>
+							<p class="mtb10  text-blue ">4.等待收货</p>
+							<p class="processlip">{{等待收货时间}}</p>
+						</li>
+						<li v-else class="wb-flow-item">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/fa/4-g.png" />
+							</div>
+							<p class="mtb10">4.等待收货</p>
+						</li>
+						<!---==============================================================================-->
+						<li v-if="jindu>4" class="wb-flow-item">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/tu/5.png" />
+							</div>
+							<p class="mtb10  text-blue">5.完成</p>
+							<p class="processlip">{{订单完成时间}}</p>
+						</li>
+						<li v-else class="wb-flow-item">
+							<div class="wb-flow-first">
+								<img src="../icon/ale/fa/5-g.png" />
+							</div>
+							<p class="mtb10">5.完成</p>
+						</li>
+						<!---==============================================================================-->
+					</ul>
+				</div>
+				<!---==============================================================================-->
+
+				<div class="state-main">
+					<p class="state-dis state-orderid-left">
+						<span class="state-fs14">订单号:</span>
+						<span class="state-fs18">{{dingdanhao}}</span>
+						<img onclick="copyOrderId();" src="//neworder.shop.jd.com/static/img/copyreceive.png" style="margin-left:2px;cursor:pointer;" title="复制" />
+						<span class="state-fs14 ml20">订单状态:</span>
+						<span v-if="订单状态颜色 === '红色'" class="wb-green state-fs18">{{zhuangtai}}</span>
+						<span v-if="订单状态颜色 === '绿色'" class="wb-red state-fs18">{{zhuangtai}}</span>
+					</p>
+
+					<div class="public-p public-indent state-dis state-operation">
+						<span class="state-fs14 ml20">操作:</span>
+						<p class="state-orderid-p">
+							<a href="//neworder.shop.jd.com/coupon/couponDetail?orderId=125451298655" class="wb-btn-s wb-btn-gray-bd" style="color:#c11;border-color:#c11;" target="_blank">查看订单优惠明细</a>
+
+							<button id="tjbz" class="wb-btn-s wb-btn-gray-bd" style="display: inline-block;">增加备注</button>
+							<button id="xgbz" class="wb-btn-s wb-btn-gray-bd" style="display:  none;">修改备注</button>
+						</p>
+					</div>
+
+					<p class="public-p state-contant">
+						<span class="public-p-sp">备注等级： <span id="remarklevel">
+            </span>
+						</span>
+						<span class="public-ftb">商家备注：</span><span id="remark"></span>
+
+						<input id="level" type="hidden" name="level" value="1" />
+					</p>
+				</div>
+
+				<div class="logistics-main">
+					<div class="state-left" style="padding: 0 20px;width: 263px;">
+						<p class="public-p logistics-tab-left logistics-p">
+							<img src="//neworder.shop.jd.com/static/img/package.png" /> 包裹 </p>
+						<table>
+							<tr>
+								<td class="logistics-tab-left">送货方式：</td>
+								<td class="logistics-tab-left">普通快递</td>
+							</tr>
+							<tr>
+								<td class="logistics-tab-left">承运单号：</td>
+								<td id="waybillid-1" class="logistics-tab-left">{{kddh}}</td>
+								<td class="logistics-tab-left">
+									<img onclick="copyWaybillId(1);" src="//neworder.shop.jd.com/static/img/copyreceive.png" style="cursor:pointer;vertical-align: bottom;margin-left: 10px;" title="复制" />
+								</td>
+							</tr>
+							<tr>
+								<td class="logistics-tab-left">承运人：</td>
+								<td class="logistics-tab-left">
+									<a href="http://www.zto.cn" class="wb-blue pubwhite" target="_blank">{{kdgs}}</a>
+								</td>
+							</tr>
+							<tr>
+								<td class="logistics-tab-left">承运人电话：</td>
+								<td class="logistics-tab-left">95311</td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="state-right">
+						<ul>
+							<li v-for="aaa in sl">
+								<sapn class="publispan">{{shijian[aaa-1]}}</sapn>
+								<p class="state-right-p">
+									{{wuliu[aaa-1]}}
+								</p>
+							</li>
+
+							<li>
+								<sapn class="publispan">2020-09-03 16:00:04</sapn>
+								<p class="state-right-p">
+									[朔州市]山西应县公司 已揽收
+								</p>
+							</li>
+
+							<li>
+								<sapn class="publispan">{{shijian1}}</sapn>
+								<p class="state-right-p">您的订单由第三方卖家拣货完成，待出库交付{{kdgs}}，运单号为{{kddh}} 【{{dianpu}}】
+								</p>
+							</li>
+							<li>
+								<sapn class="publispan">2020-08-02 08:31:57</sapn>
+								<p class="state-right-p">温馨提示：您的订单预计8月7日24:00前送达,请您做好收货安排 【系统】
+								</p>
+							</li>
+							<li>
+								<sapn class="publispan">2020-08-02 08:31:56</sapn>
+								<p class="state-right-p">第三方卖家已经开始拣货 【{{dianpu}}】
+								</p>
+							</li>
+							<li>
+								<sapn class="publispan">2020-08-02 18:41:01</sapn>
+								<p class="state-right-p">您的订单已进入第三方卖家仓库，准备出库 【{{dianpu}}】
+								</p>
+							</li>
+							<li>
+								<sapn class="publispan">2020-08-02 18:36:57</sapn>
+								<p class="state-right-p">您提交了订单，请等待第三方卖家系统确认 【客户】
+								</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="order-information" id="app">
+					<table>
+						<tr>
+							<td class="ordinf-td ordinf-td-w">
+								<p class="orinf-tit">收货人信息
+									<img id="copyReceive" onclick="copyReceiveData();" src="//neworder.shop.jd.com/static/img/copyreceive.png" style="margin-left:4px;cursor:pointer; display: none;vertical-align:bottom;" title="复制" />
+								</p>
+
+								<table id="receiveData">
+									<colgroup>
+										<col style="width:19%" />
+										<col style="width:55%" />
+										<col style="width:24%;min-width: 67px;" />
+									</colgroup>
+									<tr>
+										<td class="pubwhite">联系买家:</td>
+										<td colspan="2">
+											<p name="dongdongICON">{{zhanghao}}
+												<a style="cursor:pointer"></a>
+											</p>
+										</td>
+									</tr>
+
+									<tr class="copyable">
+										<td class="pubwhite">收货人:</td>
+										<td colspan="2" contextmenu="">{{xingming}}</td>
+									</tr>
+
+									<tr class="copyable">
+										<td class="pubwhite">地址:</td>
+										<td colspan="2">{{dizhi}}</td>
+									</tr>
+
+									<tr class="copyable">
+										<td class="pubwhite">固定电话:</td>
+										<td id="tel">{{dianhua}}</td>
+										<td>
+											<a href="javascript:void(0);" class="hiddenValue wb-blue pubwhite" accesskey="e85af8e23eab24a730f8ab8046f0ae48" accessType="1">其他联系方式</a>
+										</td>
+									</tr>
+									<!--<tr class="copyable">
+										<td class="pubwhite">手机号:</td>
+										<td>
+											<span id="mobile">{{dianhua}}</span>
+										</td>
+									</tr>-->
+								</table>
+								<p class="public-p state-contant">
+									<span class="public-ftb">买家留言：</span>
+								</p>
+
+								<td class="ordinf-td ordinf-td-w">
+									<p class="orinf-tit">配送信息</p>
+									<table>
+										<tr>
+											<td class="pubwhite">送货方式:</td>
+											<td colspan="2">普通快递</td>
+										</tr>
+
+										<tr>
+											<td class="pubwhite">运费:</td>
+											<td colspan="2">￥0.00</td>
+										</tr>
+										<tr>
+											<td class="pubwhite">配送日期:</td>
+											<td colspan="2">工作日、双休日与假日均可送货</td>
+										</tr>
+
+										<tr>
+											<td class="pubwhite">商家承诺时效:</td>
+											<td colspan="2">预计08月02日23:30前发货，08月06日23:59前送达</td>
+										</tr>
+									</table>
+								</td>
+
+								<td class="ordinf-td ordinf-td-w">
+									<p class="orinf-tit">付款信息</p>
+									<table>
+										<tr>
+											<td class="pubwhite">付款方式:</td>
+											<td>在线支付</td>
+										</tr>
+										<tr>
+											<td class="pubwhite">付款时间:</td>
+											<td>2020-08-02 18:37:04</td>
+										</tr>
+										<tr>
+											<td class="pubwhite">商品总额:</td>
+											<td>￥{{商品总额}}0</td>
+										</tr>
+										<tr>
+											<td class="pubwhite">运费金额:</td>
+											<td>￥{{运费金额}}.00</td>
+										</tr>
+										<tr>
+											<td class="pubwhite">促销价格:</td>
+											<td>￥{{促销价格}}.00</td>
+										</tr>
+										<tr>
+											<td class="pubwhite">优惠券:</td>
+											<td>￥{{优惠券}}.00</td>
+										</tr>
+										<tr>
+											<td class="pubwhite">京豆:</td>
+											<td>￥{{京豆}}.00</td>
+										</tr>
+
+										<tr>
+											<td class="pubwhite">应支付金额:</td>
+											<td>￥{{应支付金额}}0</td>
+										</tr>
+									</table>
+								</td>
+								<td class="ordinf-td ordinf-td-w">
+									<p class="orinf-tit">发票信息</p>
+									<table>
+										<colgroup>
+											<col style="width:22%" />
+											<col style="width:53%" />
+											<col style="width:25%;min-width: 58px;" />
+										</colgroup>
+										<tr>
+											<td class="pubwhite">发票类型:</td>
+											<td>不开发票</td>
+										</tr>
+									</table>
+								</td>
+						</tr>
+					</table>
+				</div>
+
+				<div class="mtb20">
+					<table class="wb-table-b wb-table" width="100%">
+						<thead>
+							<tr>
+								<th class="t-c">商品编号</th>
+								<th class="t-c" width="53%">商品名称</th>
+								<th class="t-c">商品价格</th>
+								<th class="t-c">优惠金额</th>
+								<th class="t-c">赠送京豆</th>
+								<th class="t-c">京豆优惠购</th>
+								<th class="t-c">商品数量</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td class="t-c v-t">
+									<span>71683256951</span>
+								</td>
+								<td class="t-l">
+									<a class="t-l" target="_blank" href="//item.jd.com/71683256951.html">
+										孟垣陶瓷8/10/16碗碟套装 创意INS风釉下彩网红日式和风手绘餐具碗盘个性面碗饭碗家用 千叶草4碗4盘4勺4筷
+										<input type="hidden" class="skuid" id="71683256951" name="skuid" value="71683256951" />
+									</a>
+									<a class="wb-blue wareSnapshot" target="_blank">
+										<font style="color:#0000FF">[商品快照]</font>
+									</a>
+								</td>
+								<td class="t-c v-t">￥179.00</td>
+								<td class="t-c v-t">￥29.10</td>
+								<td class="t-c v-t">0</td>
+								<td class="t-c v-t">0</td>
+								<td class="t-c v-t">1</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="public-p state-contant">
+					<div class="order-amount">
+						<p>商品总额:￥69.90</p>
+						<p>+运费:￥0.00</p>
+						<p>-促销优惠:￥0.00</p>
+						<p>-优惠券:￥50.00</p>
+						<p class="oderamo-col">
+							<span class="oderamo-foncol">应付总额:</span>￥19.90
+						</p>
+					</div>
+				</div>
+
+				<div class="order-footer-text">
+					<p>Copyright@2004-2019 JD.com 京东版权所有</p>
+					<p>京ICP证070359 北京市公安局朝阳分局备案编号110105014669</p>
+				</div>
+			</div>
+		</div>
+		<script>
+			var vm = new Vue({
+				el: '#vmvm',
+				data: {
+					xingming: '',
+					dianhua: '',
+					dizhi: '',
+					zhanghao: '',
+					kdgs: '',
+					kddh: '',
+					dianpu: '',
+					dingdanhao: '',
+
+					商品总额: '149.9',
+					运费金额: '0',
+					促销价格: '0',
+					优惠券: '100',
+					京豆: '0',
+					应支付金额: '49.9',
+
+					提交订单时间: '2020-08-01 22:15:58',
+					付款成功时间: '2020-08-01 22:15:58',
+					商品出库时间: '2020-08-01 22:15:58',
+					等待收货时间: '2020-08-01 22:15:58',
+					订单完成时间: '2020-08-01 22:15:58',
+					订单状态颜色: '红色',
+					wuliuxinxi: '',
+					jindu: ''
+				},
+
+				computed: {
+					sl: function() {
+						if(this.wuliuxinxi == '') {
+							return 0;
+						} else {
+							return this.wuliuxinxi.match(/[0-9]{4}(\-[0-9]{2}){2}\s{1}([0-9]{2}\:){2}[0-9]{2}/gm).length;
+						}
+					},
+					shijian: function() {
+						return this.wuliuxinxi.match(/[0-9]{4}(\-[0-9]{2}){2}\s{1}([0-9]{2}\:){2}[0-9]{2}/gm);
+					},
+					wuliu: function() {
+						return this.wuliuxinxi.match(/.(\[([\u4e00-\u9fa5]){3}\]|([\u4e00-\u9fa5])+).+(\n|$)/gm);;
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>
